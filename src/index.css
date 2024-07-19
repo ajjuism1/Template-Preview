@@ -2,3 +2,15 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+body {
+  background-color: #4c1d95; /* Match your purple theme color */
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+}
+
+#root { /* Or your main container element */
+  min-height: 100vh;
+}

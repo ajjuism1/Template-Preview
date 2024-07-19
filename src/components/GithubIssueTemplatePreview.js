@@ -1,6 +1,8 @@
 import React, { useState, useRef, Fragment } from 'react';
 import { parse } from 'yaml';
 import { Dialog, Transition } from '@headlessui/react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCopy, faTrash, faTimes, faPlus, faChevronRight, faChevronLeft } from '@fortawesome/free-solid-svg-icons';
 
 const GithubIssueTemplatePreview = () => {
   const [yamlInput, setYamlInput] = useState('');
@@ -100,22 +102,22 @@ const GithubIssueTemplatePreview = () => {
       case 'input':
       case 'textarea':
         return (
-          <div key={field.id} className="mb-4">
-            <label className="block text-white font-medium mb-1">{field.attributes?.label}</label>
-            <p className="text-gray-400 text-sm mb-1">{field.attributes?.description}</p>
+          <div key={field.id} className="mb-6">
+            <label className="block text-gray-700 font-semibold mb-2">{field.attributes?.label}</label>
+            <p className="text-gray-600 text-sm mb-2">{field.attributes?.description}</p>
             {field.type === 'input' ? (
-              <input type="text" className="w-full p-2 bg-gray-800 border border-gray-600 rounded text-white" placeholder={field.attributes?.placeholder} />
+              <input type="text" className="w-full p-3 bg-white border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-indigo-500 focus:border-transparent" placeholder={field.attributes?.placeholder} />
             ) : (
-              <textarea className="w-full p-2 bg-gray-800 border border-gray-600 rounded text-white" rows="3" placeholder={field.attributes?.placeholder}></textarea>
+              <textarea className="w-full p-3 bg-white border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-indigo-500 focus:border-transparent" rows="3" placeholder={field.attributes?.placeholder}></textarea>
             )}
           </div>
         );
       case 'dropdown':
         return (
-          <div key={field.id} className="mb-4">
-            <label className="block text-white font-medium mb-1">{field.attributes?.label}</label>
-            <p className="text-gray-400 text-sm mb-1">{field.attributes?.description}</p>
-            <select className="w-full p-2 bg-gray-800 border border-gray-600 rounded text-white">
+          <div key={field.id} className="mb-6">
+            <label className="block text-gray-700 font-semibold mb-2">{field.attributes?.label}</label>
+            <p className="text-gray-600 text-sm mb-2">{field.attributes?.description}</p>
+            <select className="w-full p-3 bg-white border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
               {field.attributes?.options?.map((option, index) => (
                 <option key={index}>{option}</option>
               ))}
@@ -124,13 +126,13 @@ const GithubIssueTemplatePreview = () => {
         );
       case 'checkboxes':
         return (
-          <div key={field.id} className="mb-4">
-            <label className="block text-white font-medium mb-1">{field.attributes?.label}</label>
-            <p className="text-gray-400 text-sm mb-1">{field.attributes?.description}</p>
+          <div key={field.id} className="mb-6">
+            <label className="block text-gray-700 font-semibold mb-2">{field.attributes?.label}</label>
+            <p className="text-gray-600 text-sm mb-2">{field.attributes?.description}</p>
             {field.attributes?.options?.map((option, index) => (
               <div key={index} className="flex items-center mb-2">
-                <input type="checkbox" id={`${field.id}-${index}`} className="mr-2" />
-                <label htmlFor={`${field.id}-${index}`} className="text-white">{option}</label>
+                <input type="checkbox" id={`${field.id}-${index}`} className="mr-2 h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded" />
+                <label htmlFor={`${field.id}-${index}`} className="text-gray-700">{option}</label>
               </div>
             ))}
           </div>
@@ -141,12 +143,12 @@ const GithubIssueTemplatePreview = () => {
   };
 
   return (
-    <div className="bg-gray-800 text-gray-200 p-8 rounded-lg max-w-3xl mx-auto">
+    <div className="bg-white text-gray-800 p-8 rounded-lg shadow-lg">
       <div className="relative mb-8">
-        <h2 className="text-xl font-semibold text-white mb-4">YAML Input</h2>
+        <h2 className="text-2xl font-bold text-gray-800 mb-4">YAML Input</h2>
         <textarea
           ref={textareaRef}
-          className="w-full h-64 p-4 my-4 bg-gray-900 border border-gray-700 rounded resize-none text-white font-mono"
+          className="w-full h-64 p-4 my-4 bg-gray-100 border border-gray-300 rounded-lg resize-none text-gray-800 font-mono focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
           value={yamlInput}
           onChange={handleInputChange}
           placeholder="Paste your GitHub issue template YAML here..."
@@ -154,255 +156,208 @@ const GithubIssueTemplatePreview = () => {
         <div className="absolute top-2 right-2 flex space-x-2 mb-4">
           <button
             onClick={copyToClipboard}
-            className={`px-4 py-2 rounded ${copySuccess ? 'bg-green-500' : 'bg-gray-600'} text-white text-sm transition-colors`}
+            className={`px-4 py-2 rounded-full ${copySuccess ? 'bg-green-500' : 'bg-indigo-600'} text-white text-sm transition-colors hover:bg-opacity-90`}
           >
             {copySuccess ? 'Copied!' : 'Copy YAML'}
           </button>
           <button
             onClick={() => setIsModalOpen(true)}
-            className="px-4 py-2 bg-blue-600 text-white text-sm rounded transition-colors"
+            className="px-4 py-2 bg-blue-600 text-white text-sm rounded-full transition-colors hover:bg-blue-700"
           >
             Quick Start
           </button>
         </div>
       </div>
       <div>
-        <h2 className="text-xl font-semibold text-white mb-4">Preview</h2>
+        <h2 className="text-2xl font-bold text-gray-800 mb-4">Preview</h2>
         {error && (
-          <div className="bg-red-600 text-white p-4 rounded mb-4">
+          <div className="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 rounded mb-4">
             {error}
           </div>
         )}
         {parsedTemplate && (
-          <div className="bg-gray-900 p-6 rounded-lg border border-gray-700">
-            <h1 className="text-2xl font-semibold text-white mb-4">{parsedTemplate.name}</h1>
-            <p className="text-gray-400 mb-6">{parsedTemplate.description}</p>
+          <div className="bg-gray-100 p-6 rounded-lg border border-gray-200 shadow-inner">
+            <h1 className="text-2xl font-bold text-gray-800 mb-4">{parsedTemplate.name}</h1>
+            <p className="text-gray-600 mb-6">{parsedTemplate.description}</p>
             {parsedTemplate.body && parsedTemplate.body.map(renderFormField)}
           </div>
         )}
       </div>
       <Transition appear show={isModalOpen} as={Fragment}>
-        <Dialog as="div" className="relative z-10" onClose={() => setIsModalOpen(false)}>
-          <Transition.Child
-            as={Fragment}
-            enter="ease-out duration-300"
-            enterFrom="opacity-0"
-            enterTo="opacity-100"
-            leave="ease-in duration-200"
-            leaveFrom="opacity-100"
-            leaveTo="opacity-0"
-          >
-            <div className="fixed inset-0 bg-black bg-opacity-50" />
-          </Transition.Child>
-          <div className="fixed inset-0 overflow-y-auto">
-            <div className="flex min-h-full items-center justify-center p-4">
-              <Transition.Child
-                as={Fragment}
-                enter="ease-out duration-300"
-                enterFrom="opacity-0 scale-95"
-                enterTo="opacity-100 scale-100"
-                leave="ease-in duration-200"
-                leaveFrom="opacity-100 scale-100"
-                leaveTo="opacity-0 scale-95"
-              >
-                <Dialog.Panel className="bg-gray-800 p-6 rounded-lg max-w-3xl w-full flex flex-col space-y-4">
-                  <div className="flex space-x-4">
-                    <div className="w-1/2">
-                      <Dialog.Title className="text-lg font-medium text-white mb-4">Add Example Fields</Dialog.Title>
-                      {step === 1 && (
-                        <div className="space-y-4">
-                          <input
-                            type="text"
-                            className="w-full p-2 bg-gray-700 border border-gray-600 rounded text-white"
-                            placeholder="Template Name"
-                            name="name"
-                            value={templateInfo.name}
-                            onChange={handleTemplateInfoChange}
-                          />
-                          <input
-                            type="text"
-                            className="w-full p-2 bg-gray-700 border border-gray-600 rounded text-white"
-                            placeholder="Template Description"
-                            name="description"
-                            value={templateInfo.description}
-                            onChange={handleTemplateInfoChange}
-                          />
-                          <input
-                            type="text"
-                            className="w-full p-2 bg-gray-700 border border-gray-600 rounded text-white"
-                            placeholder="Template Title"
-                            name="title"
-                            value={templateInfo.title}
-                            onChange={handleTemplateInfoChange}
-                          />
-                          <input
-                            type="text"
-                            className="w-full p-2 bg-gray-700 border border-gray-600 rounded text-white"
-                            placeholder="Labels (comma-separated)"
-                            name="labels"
-                            value={templateInfo.labels}
-                            onChange={handleTemplateInfoChange}
-                          />
-                          <input
-                            type="text"
-                            className="w-full p-2 bg-gray-700 border border-gray-600 rounded text-white"
-                            placeholder="Projects (comma-separated)"
-                            name="projects"
-                            value={templateInfo.projects}
-                            onChange={handleTemplateInfoChange}
-                          />
-                          <input
-                            type="text"
-                            className="w-full p-2 bg-gray-700 border border-gray-600 rounded text-white"
-                            placeholder="Assignees (comma-separated)"
-                            name="assignees"
-                            value={templateInfo.assignees}
-                            onChange={handleTemplateInfoChange}
-                          />
-                          <button
-                            type="button"
-                            className="w-full py-2 bg-blue-500 text-white rounded mt-4"
-                            onClick={() => setStep(2)}
-                          >
-                            Next
-                          </button>
-                        </div>
-                      )}
-                      {step === 2 && (
-                        <form className="space-y-4">
-                          <select
-                            className="w-full p-2 bg-gray-700 border border-gray-600 rounded text-white"
-                            name="type"
-                            value={newField.type}
-                            onChange={handleFieldChange}
-                          >
-                            <option value="">Select Field Type</option>
-                            <option value="input">Input</option>
-                            <option value="textarea">Textarea</option>
-                            <option value="dropdown">Dropdown</option>
-                            <option value="checkboxes">Checkboxes</option>
-                          </select>
-                          <input
-                            type="text"
-                            className="w-full p-2 bg-gray-700 border border-gray-600 rounded text-white"
-                            placeholder="ID"
-                            name="id"
-                            value={newField.id}
-                            onChange={handleFieldChange}
-                          />
-                          <input
-                            type="text"
-                            className="w-full p-2 bg-gray-700 border border-gray-600 rounded text-white"
-                            placeholder="Label"
-                            name="label"
-                            value={newField.label}
-                            onChange={handleFieldChange}
-                          />
-                          <input
-                            type="text"
-                            className="w-full p-2 bg-gray-700 border border-gray-600 rounded text-white"
-                            placeholder="Description"
-                            name="description"
-                            value={newField.description}
-                            onChange={handleFieldChange}
-                          />
-                          <input
-                            type="text"
-                            className="w-full p-2 bg-gray-700 border border-gray-600 rounded text-white"
-                            placeholder="Placeholder"
-                            name="placeholder"
-                            value={newField.placeholder}
-                            onChange={handleFieldChange}
-                          />
-                          {(newField.type === 'dropdown' || newField.type === 'checkboxes') && (
-                            <div className="space-y-2">
-                              {newField.options.map((option, index) => (
-                                <div key={index} className="flex items-center space-x-2">
-                                  <input
-                                    type="text"
-                                    className="w-full p-2 bg-gray-700 border border-gray-600 rounded text-white"
-                                    placeholder={`Option ${index + 1}`}
-                                    value={option}
-                                    onChange={(e) => handleOptionsChange(index, e.target.value)}
-                                  />
-                                  <button
-                                    type="button"
-                                    className="px-2 py-1 bg-red-600 text-white rounded"
-                                    onClick={() => removeOption(index)}
-                                  >
-                                    Remove
-                                  </button>
-                                </div>
-                              ))}
-                              <button
-                                type="button"
-                                className="w-full py-2 bg-yellow-600 text-white rounded"
-                                onClick={addOption}
-                              >
-                                Add Option
-                              </button>
-                            </div>
-                          )}
-                          <button
-                            type="button"
-                            className="w-full py-2 bg-blue-600 text-white rounded mt-4"
-                            onClick={addNewField}
-                          >
-                            Add Field
-                          </button>
-                          <button
-                            type="button"
-                            className="w-full py-2 bg-gray-600 text-white rounded mt-4"
-                            onClick={() => setStep(1)}
-                          >
-                            Back
-                          </button>
-                        </form>
-                      )}
-                    </div>
-                    <div className="w-1/2 overflow-y-auto max-h-96 border border-gray-600 rounded p-4">
-                      <h3 className="text-lg font-medium text-white mb-2">Preview</h3>
-                      {formFields.map((field, index) => (
-                        <div key={index} className="bg-gray-700 p-4 mb-2 rounded relative">
-                          <p className="text-white"><strong>Type:</strong> {field.type}</p>
-                          <p className="text-white"><strong>ID:</strong> {field.id}</p>
-                          <p className="text-white"><strong>Label:</strong> {field.label}</p>
-                          <p className="text-white"><strong>Description:</strong> {field.description}</p>
-                          <p className="text-white"><strong>Placeholder:</strong> {field.placeholder}</p>
-                          {(field.type === 'dropdown' || field.type === 'checkboxes') && (
-                            <div>
-                              <p className="text-white"><strong>Options:</strong></p>
-                              <ul className="list-disc list-inside text-white">
-                                {field.options.map((option, i) => (
-                                  <li key={i}>{option}</li>
-                                ))}
-                              </ul>
-                            </div>
-                          )}
-                          <button
-                            type="button"
-                            className="absolute top-2 right-2 px-2 py-1 bg-red-600 text-white rounded text-xs"
-                            onClick={() => deleteField(index)}
-                          >
-                            Delete
-                          </button>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                  <button
-                    type="button"
-                    className="w-full py-2 bg-green-600 text-white rounded mb-4"
-                    onClick={addFieldToYaml}
-                  >
-                    Add Fields to YAML
-                  </button>
-                </Dialog.Panel>
-              </Transition.Child>
+  <Dialog as="div" className="relative z-10" onClose={() => setIsModalOpen(false)}>
+    <Transition.Child
+      as={Fragment}
+      enter="ease-out duration-300"
+      enterFrom="opacity-0"
+      enterTo="opacity-100"
+      leave="ease-in duration-200"
+      leaveFrom="opacity-100"
+      leaveTo="opacity-0"
+    >
+      <div className="fixed inset-0 bg-black bg-opacity-25" />
+    </Transition.Child>
+
+    <div className="fixed inset-0 overflow-y-auto">
+      <div className="flex min-h-full items-center justify-center p-4">
+        <Transition.Child
+          as={Fragment}
+          enter="ease-out duration-300"
+          enterFrom="opacity-0 scale-95"
+          enterTo="opacity-100 scale-100"
+          leave="ease-in duration-200"
+          leaveFrom="opacity-100 scale-100"
+          leaveTo="opacity-0 scale-95"
+        >
+          <Dialog.Panel className="bg-white p-6 rounded-xl max-w-4xl w-full flex flex-col space-y-6 shadow-2xl">
+            <div className="flex justify-between items-center">
+              <Dialog.Title className="text-3xl font-bold text-gray-900">Add Example Fields</Dialog.Title>
+              <button onClick={() => setIsModalOpen(false)} className="text-gray-400 hover:text-gray-600">
+                <FontAwesomeIcon icon={faTimes} size="lg" />
+              </button>
             </div>
-          </div>
-        </Dialog>
-      </Transition>
+            <div className="flex space-x-8">
+              <div className="w-1/2">
+                {step === 1 && (
+                  <div className="space-y-4">
+                    {['name', 'description', 'title', 'labels', 'projects', 'assignees'].map((field) => (
+                      <input
+                        key={field}
+                        type="text"
+                        className="w-full p-3 bg-gray-50 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200"
+                        placeholder={`Template ${field.charAt(0).toUpperCase() + field.slice(1)}`}
+                        name={field}
+                        value={templateInfo[field]}
+                        onChange={handleTemplateInfoChange}
+                      />
+                    ))}
+                    <button
+                      type="button"
+                      className="w-full py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors duration-200 shadow-md flex items-center justify-center space-x-2"
+                      onClick={() => setStep(2)}
+                    >
+                      <span>Next</span>
+                      <FontAwesomeIcon icon={faChevronRight} />
+                    </button>
+                  </div>
+                )}
+                {step === 2 && (
+                  <form className="space-y-4">
+                    <select
+                      className="w-full p-3 bg-gray-50 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200"
+                      name="type"
+                      value={newField.type}
+                      onChange={handleFieldChange}
+                    >
+                      <option value="">Select Field Type</option>
+                      <option value="input">Input</option>
+                      <option value="textarea">Textarea</option>
+                      <option value="dropdown">Dropdown</option>
+                      <option value="checkboxes">Checkboxes</option>
+                    </select>
+                    {['id', 'label', 'description', 'placeholder'].map((field) => (
+                      <input
+                        key={field}
+                        type="text"
+                        className="w-full p-3 bg-gray-50 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200"
+                        placeholder={field.charAt(0).toUpperCase() + field.slice(1)}
+                        name={field}
+                        value={newField[field]}
+                        onChange={handleFieldChange}
+                      />
+                    ))}
+                    {(newField.type === 'dropdown' || newField.type === 'checkboxes') && (
+                      <div className="space-y-2">
+                        {newField.options.map((option, index) => (
+                          <div key={index} className="flex items-center space-x-2">
+                            <input
+                              type="text"
+                              className="flex-grow p-2 bg-gray-50 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200"
+                              placeholder={`Option ${index + 1}`}
+                              value={option}
+                              onChange={(e) => handleOptionsChange(index, e.target.value)}
+                            />
+                            <button
+                              type="button"
+                              className="p-2 bg-white-500 text-red-400 rounded-lg hover:bg-red-100 transition-colors duration-200 shadow-sm"
+                              onClick={() => removeOption(index)}
+                            >
+                              <FontAwesomeIcon icon={faTrash} />
+                            </button>
+                          </div>
+                        ))}
+                        <button
+                          type="button"
+                          className="w-full py-2 bg-yellow-500 text-white rounded-lg hover:bg-yellow-600 transition-colors duration-200 shadow-md flex items-center justify-center space-x-2"
+                          onClick={addOption}
+                        >
+                          <FontAwesomeIcon icon={faPlus} />
+                          <span>Add Option</span>
+                        </button>
+                      </div>
+                    )}
+                    <button
+                      type="button"
+                      className="w-full py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors duration-200 shadow-md flex items-center justify-center space-x-2"
+                      onClick={addNewField}
+                    >
+                      <FontAwesomeIcon icon={faPlus} />
+                      <span>Add Field</span>
+                    </button>
+                    <button
+                      type="button"
+                      className="w-full py-3 bg-gray-500 text-white rounded-lg hover:bg-gray-600 transition-colors duration-200 shadow-md flex items-center justify-center space-x-2"
+                      onClick={() => setStep(1)}
+                    >
+                      <FontAwesomeIcon icon={faChevronLeft} />
+                      <span>Back</span>
+                    </button>
+                  </form>
+                )}
+              </div>
+              <div className="w-1/2 overflow-y-auto max-h-[600px] border border-gray-200 rounded-lg p-4 bg-gray-50 shadow-inner">
+                <h3 className="text-xl font-semibold text-gray-900 mb-4">Preview</h3>
+                {formFields.map((field, index) => (
+                  <div key={index} className="bg-white p-4 mb-4 rounded-lg shadow-md relative font-mono text-sm">
+                    <p className="text-gray-800"><strong>Type:</strong> {field.type}</p>
+                    <p className="text-gray-800"><strong>ID:</strong> {field.id}</p>
+                    <p className="text-gray-800"><strong>Label:</strong> {field.label}</p>
+                    <p className="text-gray-800"><strong>Description:</strong> {field.description}</p>
+                    <p className="text-gray-800"><strong>Placeholder:</strong> {field.placeholder}</p>
+                    {(field.type === 'dropdown' || field.type === 'checkboxes') && (
+                      <div>
+                        <p className="text-gray-800"><strong>Options:</strong></p>
+                        <ul className="list-disc list-inside text-gray-700">
+                          {field.options.map((option, i) => (
+                            <li key={i}>{option}</li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
+                    <button
+                      type="button"
+                      className="absolute top-1 right-2 p-2 bg-white-500 text-red-400 rounded-md hover:bg-red-100 transition-colors duration-200 shadow-sm"
+                      onClick={() => deleteField(index)}
+                    >
+                      <FontAwesomeIcon icon={faTrash} />
+                    </button>
+                  </div>
+                ))}
+              </div>
+            </div>
+            <button
+              type="button"
+              className="w-full py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors duration-200 shadow-md flex items-center justify-center space-x-2"
+              onClick={addFieldToYaml}
+            >
+              <FontAwesomeIcon icon={faCopy} />
+              <span>Add Fields to YAML</span>
+            </button>
+          </Dialog.Panel>
+        </Transition.Child>
+      </div>
+    </div>
+  </Dialog>
+</Transition>
     </div>
   );
 };
