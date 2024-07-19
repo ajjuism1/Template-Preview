@@ -1,23 +1,11 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
+import GithubIssueTemplatePreview from './components/GithubIssueTemplatePreview';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div style={{backgroundColor: '#121212', minHeight: '100vh', padding: '2rem'}}>
+      <h1 style={{color: '#ffffff', textAlign: 'center', marginBottom: '2rem'}}>GitHub Issue Template Preview</h1>
+      <GithubIssueTemplatePreview />
     </div>
   );
 }
