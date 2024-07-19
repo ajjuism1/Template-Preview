@@ -3,8 +3,8 @@ import GithubIssueTemplatePreview from './components/GithubIssueTemplatePreview'
 
 function App() {
   return (
-    <div style={{backgroundColor: '#121212', minHeight: '100vh', padding: '2rem'}}>
-      <h1 style={{color: '#ffffff', textAlign: 'center', marginBottom: '2rem'}}>GitHub Issue Template Preview</h1>
+    <div className="bg-gray-900 min-h-screen p-8">
+      <h1 className="text-white text-center text-3xl mb-8">GitHub Issue Template Preview</h1>
       <GithubIssueTemplatePreview />
     </div>
   );
