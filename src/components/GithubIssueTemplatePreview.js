@@ -253,7 +253,7 @@ const GithubIssueTemplatePreview = () => {
   const Footer = () => (
     <footer className="bg-transparent text-white py-4 mt-8">
       <div className="container mx-auto text-center">
-        <p>&copy; 2024 GitHub Issue Template Preview.</p>
+        <p>&copy; 2024 GitHub Issue Template Preview | <a href='https://docs.github.com/en/communities/using-templates-to-encourage-useful-issues-and-pull-requests/configuring-issue-templates-for-your-repository'> Read Documentation</a></p> 
         <div className="mt-2">
           <a href="https://x.com/ajjuism" className="text-blue-300 hover:text-blue-100 mr-4">Made with ❤️ and Laziness</a>
         </div>
@@ -283,21 +283,25 @@ const GithubIssueTemplatePreview = () => {
           <h2 className="text-2xl font-bold text-gray-800 mb-4">YAML Input</h2>
           <textarea
             ref={textareaRef}
-            className="w-full h-64 p-4 my-4 bg-gray-100 border border-gray-300 rounded-lg resize-none text-gray-800 font-mono focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+            className="w-full h-64 p-4 my-6 bg-gray-100 border border-gray-300 rounded-lg resize-none text-gray-800 font-mono focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
             value={yamlInput}
             onChange={handleInputChange}
             placeholder="Paste your GitHub issue template YAML here..."
           />
           <div className="absolute top-2 right-2 flex space-x-2 mb-4">
-            <button
+         
+          <button
               onClick={copyToClipboard}
-              className={`px-4 py-2 rounded-full ${copySuccess ? 'bg-green-500' : 'bg-indigo-600'} text-white text-sm transition-colors hover:bg-opacity-90`}
+              className={`px-4 py-2 rounded-full border ${
+                copySuccess ? 'border-green-500 text-green-500' : 'border-transparent-600 text-indigo-600'
+              } hover:bg-indigo-50 text-sm transition-colors flex items-center space-x-2`}
             >
-              {copySuccess ? 'Copied!' : 'Copy YAML'}
+              <FontAwesomeIcon icon={faCopy} />
+              <span>{copySuccess ? 'Copied!' : 'Copy YAML'}</span>
             </button>
             <motion.button
               onClick={() => setIsModalOpen(true)}
-              className="px-4 py-2 bg-blue-600 text-white text-sm rounded-full transition-colors hover:bg-blue-700"
+              className="px-6 py-3 bg-blue-600 text-white text-base rounded-full transition-colors hover:bg-blue-700"
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.95 }}
               animate={{
