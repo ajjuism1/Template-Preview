@@ -8,7 +8,7 @@ function App() {
     <div className="bg-indigo-900 min-h-screen p-8">
       <h1 className="text-white text-center text-3xl mb-8 flex items-center justify-center">
         <FontAwesomeIcon icon={faGithub} className="mr-2 text-4xl" />
-        Issue Template Preview
+        Issue Template Generator
       </h1>
       <GithubIssueTemplatePreview />
     </div>
